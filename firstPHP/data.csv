@@ -1,0 +1,49 @@
+<?php
+// 設定為台北時間
+date_default_timezone_set('Asia/Taipei');
+
+// 取得現在時間
+$now = new DateTime();
+
+// 星期對照
+$weekday_en = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
+$weekday_zh = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+// 取得各項時間
+$year = (int)$now->format("Y");
+$month = (int)$now->format("n");
+$day = (int)$now->format("j");
+$hour = (int)$now->format("G");     // 24小時
+$minute = $now->format("i");        // 分（補0）
+$second = $now->format("s");        // 秒
+$weekday = (int)$now->format("w");  // 星期
+
+// 民國年
+$roc_year = $year - 1911;
+
+// 上午 / 下午
+$ampm = ($hour < 12) ? "上午" : "下午";
+$hour_12 = $hour % 12;
+$hour_12 = ($hour_12 == 0) ? 12 : $hour_12;
+
+// ===== 格式1 =====
+// 2024/3/12 Tue. 10:30
+$format1 = "{$year}/{$month}/{$day} {$weekday_en[$weekday]} {$hour}:{$minute}";
+
+// ===== 格式2 =====
+// 113年3月12日 星期二 上午10時20分
+$format2 = "{$roc_year}年{$month}月{$day}日 {$weekday_zh[$weekday]} {$ampm}{$hour_12}時{$minute}分";
+
+// ===== 格式3 =====
+// 3/12 2024, 14:20
+$format3 = "{$month}/{$day} {$year}, {$hour}:{$minute}";
+
+// ===== 額外：完整顯示（含秒）=====
+$full = "{$year}年{$month}月{$day}日 {$weekday_zh[$weekday]} {$hour}:{$minute}:{$second}";
+
+// 輸出（網頁用 <br>）
+echo "完整時間：".$full."<br><br>";
+echo $format1."<br>";
+echo $format2."<br>";
+echo $format3."<br>";
+?>
